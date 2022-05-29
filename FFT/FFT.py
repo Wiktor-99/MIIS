@@ -4,15 +4,15 @@ import numpy as np
 def count_omega(number_of_elements, index_of_element):
    return cmath.exp((-2.0 * cmath.pi * 1j * index_of_element) / number_of_elements)
 
-def get_q_for_fft(number_of_elements, index_of_element, fft_of_odd_indexes):
-   return count_omega(number_of_elements, index_of_element) * fft_of_odd_indexes[index_of_element]
+def get_q_for_fft(number_of_elements, index_of_element, fft_of_elements_at_odd_indexes):
+   return count_omega(number_of_elements, index_of_element) * fft_of_elements_at_odd_indexes[index_of_element]
 
-def apply_fft(elements_number, fft_of_even_indexes, fft_of_odd_indexes):
-    output_array = np.zeros(elements_number, dtype=np.complex_)
+def apply_fft(elements_number, fft_of_elements_at_even_indexes, fft_of_elements_at_odd_indexes):
+    output_array = [0] * elements_number
     half_of_elements_number = int(elements_number/2)
 
     for index in range(half_of_elements_number):
-       q, p = get_q_for_fft(elements_number, index, fft_of_odd_indexes), fft_of_even_indexes[index]
+       q, p = get_q_for_fft(elements_number, index, fft_of_elements_at_odd_indexes), fft_of_elements_at_even_indexes[index]
        output_array[index] = p + q
        output_array[index + half_of_elements_number] = p - q
     return output_array
@@ -22,18 +22,18 @@ def fft(input_array):
    if elements_number == 1:
       return input_array
 
-   fft_of_even_indexes, fft_of_odd_indexes = fft(input_array[0::2]), fft(input_array[1::2])
+   fft_of_elements_at_even_indexes = fft(input_array[0::2])
+   fft_of_elements_at_odd_indexes =  fft(input_array[1::2])
 
-   return apply_fft(elements_number, fft_of_even_indexes, fft_of_odd_indexes)
+   return apply_fft(elements_number, fft_of_elements_at_even_indexes, fft_of_elements_at_odd_indexes)
 
 def fft2(f):
    m, n = f.shape
 
-   one_dimension_array = np.reshape(f, m * n)
-   fft_one_dimension = fft(one_dimension_array)
-   ftt_matrix = np.reshape(fft_one_dimension, (m, n))
+   transpose_fft = np.transpose(fft(f))
+   ftt_for_both_dimensions = fft(transpose_fft)
 
-   return ftt_matrix, m, n
+   return np.transpose(ftt_for_both_dimensions), m, n
 
 def ifft2(F, m, n):
    f, M, N = fft2(np.conj(F))
