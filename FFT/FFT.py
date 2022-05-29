@@ -12,9 +12,9 @@ def apply_fft(elements_number, fft_of_elements_at_even_indexes, fft_of_elements_
     half_of_elements_number = int(elements_number/2)
 
     for index in range(half_of_elements_number):
-       q, p = get_q_for_fft(elements_number, index, fft_of_elements_at_odd_indexes), fft_of_elements_at_even_indexes[index]
-       output_array[index] = p + q
-       output_array[index + half_of_elements_number] = p - q
+      q, p = get_q_for_fft(elements_number, index, fft_of_elements_at_odd_indexes), fft_of_elements_at_even_indexes[index]
+      output_array[index] = p + q
+      output_array[index + half_of_elements_number] = p - q
     return output_array
 
 def fft(input_array):
