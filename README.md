@@ -1,6 +1,11 @@
 # Rozwinięcia ortogonalne w przetwarzaniu i kompresji obrazów
 
 Repozytorium zawiera projekt wykonany w trakcie zajęć Identyfikacja i Modelowanie Statystyczne.
+Projekt został zrealizowany przez grupę:
+
+* Wiktor Bajor
+* Adam Kubiak
+* Mateusz Tkacz
 
 ***
 
